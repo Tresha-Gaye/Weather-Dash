@@ -6,17 +6,30 @@ var temperature = document.querySelector(".temperature");
 // var cityCallUrl = "api.openweathermap.org/data/2.5/weather?q=" + inputValue.value + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
 
 button.addEventListener("click", function() {
-    fetch('api.openweathermap.org/data/2.5/weather?q='+inputValue.value+'&appid=d68ab89bff9a1e94c3d51494c09fbe5d')
+    console.log("click");
+    // alert("hello");
+    
+    // var apiUrl = "https://api.github.com/users/" + user + "/repos";
+
+    var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + document.getElementById("city-name").value + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
+    alert(cityNameUrl);
+
+    fetch(cityNameUrl)
     .then(function(response) {
         // call was successful
         if(response.ok) {
             response.json().then(function(data) {
             console.log(data);
+            alert(data)
             });
         } else {
             alert("Error: City not found.");
         }
-    });
+    })
+    .catch(function(error) {
+        // Notice this `.catch` getting chained unto the end of the .then() method
+        alert(error);
+    }); 
 });
       
 
