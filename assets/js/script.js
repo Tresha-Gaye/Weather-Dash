@@ -1,18 +1,17 @@
-var button = document.querySelector(".button");
-var inputValue = document.querySelector(".inputValue");
-var name = document.querySelector(".name");
-var description = document.querySelector(".description");
-var temperature = document.querySelector(".temperature");
+var searchButton = document.querySelector(".button");
+// var inputValue = document.querySelector(".inputValue");
+// var name = document.querySelector(".name");
+// var description = document.querySelector(".description");
+// var temperature = document.querySelector(".temperature");
 // var cityCallUrl = "api.openweathermap.org/data/2.5/weather?q=" + inputValue.value + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
 
-button.addEventListener("click", function() {
-    console.log("click");
+searchButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    // console.log("click");
     // alert("hello");
-    
-    // var apiUrl = "https://api.github.com/users/" + user + "/repos";
-
-    var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + document.getElementById("city-name").value + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
-    alert(cityNameUrl);
+    var cityName = document.getElementById('city-name').value
+    var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
+    // console.log(cityNameUrl);
 
     fetch(cityNameUrl)
     .then(function(response) {
@@ -20,18 +19,21 @@ button.addEventListener("click", function() {
         if(response.ok) {
             response.json().then(function(data) {
             console.log(data);
-            alert(data)
+            // alert(data)
             });
         } else {
             alert("Error: City not found.");
         }
     })
     .catch(function(error) {
-        // Notice this `.catch` getting chained unto the end of the .then() method
-        alert(error);
+        alert("Unable to connect to Open Weather")
+        // console.log(error);
     }); 
 });
       
+// var getweatherData = function() {
+//     var weatherApiUrl = 
+// }
 
             // .catch(err => alert ("Wrong city name!"))
     
