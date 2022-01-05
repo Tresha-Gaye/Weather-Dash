@@ -4,13 +4,13 @@ var searchButton = document.querySelector(".button");
 // var description = document.querySelector(".description");
 // var temperature = document.querySelector(".temperature");
 // var cityCallUrl = "api.openweathermap.org/data/2.5/weather?q=" + inputValue.value + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
-var cityName = document.getElementById('city-name').value
+
 
 searchButton.addEventListener("click", function(event) {
     event.preventDefault();
     // console.log("click");
     // alert("hello");
-    
+    var cityName = document.getElementById('city-name').value;
     var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
     // console.log(cityNameUrl);
 
@@ -28,26 +28,28 @@ searchButton.addEventListener("click", function(event) {
     })
     .catch(function(error) {
         alert("Unable to connect to Open Weather")
-        // console.log(error);
-    // }); 
+        console.log(error);
+    }); 
 });
+
+// isolate data from fetch request, instead of console log, assign values into variables & then append variables to divs in html
       
-var getForecast = function() {
-    var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
+// var getForecast = function() {
+//     var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
     
-    fetch(forecastUrl)
-    .then(function(response) {
-        // call was successful
-        if(response.ok) {
-            response.json().then(function(data) {
-            console.log(data);
-            // alert(data)
-            });
-        } else {
-            alert("Error: City not found.");
-        }
-    })
-};
+//     fetch(forecastUrl)
+//     .then(function(response) {
+//         // call was successful
+//         if(response.ok) {
+//             response.json().then(function(data) {
+//             console.log(data);
+//             // alert(data)
+//             });
+//         } else {
+//             alert("Error: City not found.");
+//         }
+//     })
+// };
 
 // getForecast();
 
