@@ -1,4 +1,5 @@
-var searchButton = document.querySelector(".button");
+var searchButton = document.getElementById("search-btn");
+console.log(searchButton);
 // var inputValue = document.querySelector(".inputValue");
 // var name = document.querySelector(".name");
 // var description = document.querySelector(".description");
@@ -8,10 +9,10 @@ var searchButton = document.querySelector(".button");
 
 searchButton.addEventListener("click", function(event) {
     event.preventDefault();
-    // console.log("click");
+    console.log("click");
     // alert("hello");
     var cityName = document.getElementById('city-name').value;
-    var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
+    var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d&units=imperial";
     // console.log(cityNameUrl);
 
     fetch(cityNameUrl)
@@ -19,8 +20,17 @@ searchButton.addEventListener("click", function(event) {
         // call was successful
         if(response.ok) {
             response.json().then(function(data) {
-            console.log(data);
+                console.log(data);
+            var nameEl = document.getElementById("name");
+            nameEl.textContent = data.name;
+            var tempEl = document.getElementById("temperature");
+            tempEl.textContent = "Temperature= " + data.main.temp + " F";
+            var windEl = document.getElementById("wind-speed");
+            windEl.textContent = data.wind.speed + " MPH";
+            var humidEl = document.getElementById("humidity");
+            humidEl.textContent = data.main.humidity + " %";
             // alert(data)
+            // fiveDayForecast(data.coord.lat, data.coord.lon); 
             });
         } else {
             alert("Error: City not found.");
@@ -31,6 +41,18 @@ searchButton.addEventListener("click", function(event) {
         console.log(error);
     }); 
 });
+
+// var fiveDayForecast = function(lat, lon) {
+// console.log(lat, lon);
+// }
+
+// use this api to get five day forecast
+
+
+// create a function using 
+
+//pass in latitute & longitute from city name function & use that to call onecall api
+
 
 // isolate data from fetch request, instead of console log, assign values into variables & then append variables to divs in html
       
