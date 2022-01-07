@@ -1,5 +1,9 @@
 var searchButton = document.getElementById("search-btn");
 console.log(searchButton);
+
+var today = new Date().toLocaleDateString();
+console.log(today);
+
 // var inputValue = document.querySelector(".inputValue");
 // var name = document.querySelector(".name");
 // var description = document.querySelector(".description");
@@ -22,15 +26,15 @@ searchButton.addEventListener("click", function(event) {
             response.json().then(function(data) {
                 console.log(data);
             var nameEl = document.getElementById("name");
-            nameEl.textContent = data.name;
+            nameEl.textContent = data.name + " (" + today + ")";
             var tempEl = document.getElementById("temperature");
-            tempEl.textContent = "Temperature= " + data.main.temp + " F";
+            tempEl.textContent = "Temp: " + data.main.temp + "℉";
             var windEl = document.getElementById("wind-speed");
-            windEl.textContent = data.wind.speed + " MPH";
+            windEl.textContent = "Wind: " + data.wind.speed + " MPH";
             var humidEl = document.getElementById("humidity");
-            humidEl.textContent = data.main.humidity + " %";
+            humidEl.textContent = "Humidity: " + data.main.humidity + " %";
             // alert(data)
-            // fiveDayForecast(data.coord.lat, data.coord.lon); 
+            fiveDayForecast(data.coord.lat, data.coord.lon); 
             });
         } else {
             alert("Error: City not found.");
@@ -42,9 +46,28 @@ searchButton.addEventListener("click", function(event) {
     }); 
 });
 
-// var fiveDayForecast = function(lat, lon) {
-// console.log(lat, lon);
-// }
+var fiveDayForecast = function(lat, lon) {
+    // lat = data.coord.lat;
+    // lon = data.coord.lon;
+    console.log(lat, lon);
+    var fiveDayUrl = "https://api.openweathermap.org/data/2.5/onecall?" + "lat=" + lat + "&" + "lon=" + lon + "&exclude=minutely,hourly,alerts&appid=d68ab89bff9a1e94c3d51494c09fbe5d&units=imperial";
+    fetch(fiveDayUrl)
+    .then(function(response) {
+        // call was successful
+        if(response.ok) {
+            response.json().then(function(data) {
+                console.log(data);
+            var uviEl = document.getElementById("uv-index");
+            uviEl.textContent = "UV Index: " + data.current.uvi;
+            }
+        )}
+    })
+    .catch(function(error) {
+        alert("Unable to connect to Open Weather")
+        console.log(error);
+    })
+};
+     
 
 // use this api to get five day forecast
 

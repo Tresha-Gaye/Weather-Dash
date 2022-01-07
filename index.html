@@ -15,28 +15,31 @@
             Weather Dashboard
         </nav>         
     </header>
-    <main class="flex-row justify-space-between">
-        <div class="col-4">
-            <div class="p-2 card d-flex">
-                <h4 class="p-2 fw-bold">Search for a City:</h4>
-                <div class="p-2 form-group col-md d-flex">
-                    <input type="text" class="form-control" id="city-name" placeholder="Enter a city">
+    <main class="container">
+        <div class="row">
+            <div class="col-4">
+                <div class="p-2 card d-flex">
+                    <h4 class="p-2 fw-bold text-wrap">Search for a City:</h4>
+                    <div class="p-2 form-group col-md d-flex flex-row">
+                        <input type="text" class="form-control" id="city-name" placeholder="Enter a city">
+                    </div>
+                    <button id="search-btn" class="btn btn-primary search-button" data-attr="data-city">Search</button>
                 </div>
-                <button id="search-btn" class="btn btn-primary search-button" data-attr="data-city">Search</button>
             </div>
-        </div>
-        <!-- <div class="city-box border border-secondary d-flex">
-        </div> -->
-        <!-- <form>
-            <input type="text" name="city-name" id="city-name" class="inputValue" placeholder="Enter a city">
-            <input type="submit" value="Search" class="button">
-        </form> -->
-        <div class="col-8 border border-dark d-flex flex-row">
-            <hi id="display"></hi>
-            <p id="name"></p>
-            <p id="temperature"></p>
-            <p id="wind-speed"></p>
-            <p id="humidity"></p>
+            <!-- <div class="city-box border border-secondary d-flex">
+            </div> -->
+            <!-- <form>
+                <input type="text" name="city-name" id="city-name" class="inputValue" placeholder="Enter a city">
+                <input type="submit" value="Search" class="button">
+            </form> -->
+            <div class="col-8 card">
+                <hi id="display"></hi>
+                <p id="name" class="fw-bold fs-2"></p>
+                <p id="temperature"></p>
+                <p id="wind-speed"></p>
+                <p id="humidity"></p>
+                <p id="uv-index"></p>
+            </div>
         </div>
     </main>
     

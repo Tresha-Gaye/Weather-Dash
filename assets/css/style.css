@@ -14,8 +14,6 @@ body {
 }
 
 input[type="text"] {
-    height: 50px;
-    width: 600px;
     background: #e7e7e7;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
@@ -26,8 +24,6 @@ input[type="text"] {
 }
 
 input[type="submit"] {
-    height:  50px;
-    width: 100px;
     background: #e7e7e7;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
