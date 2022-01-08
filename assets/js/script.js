@@ -50,7 +50,7 @@ var fiveDayForecast = function(lat, lon) {
     // lat = data.coord.lat;
     // lon = data.coord.lon;
     console.log(lat, lon);
-    var fiveDayUrl = "https://api.openweathermap.org/data/2.5/onecall?" + "lat=" + lat + "&" + "lon=" + lon + "&exclude=minutely,alerts&appid=d68ab89bff9a1e94c3d51494c09fbe5d&units=imperial";
+    var fiveDayUrl = "https://api.openweathermap.org/data/2.5/onecall?" + "lat=" + lat + "&" + "lon=" + lon + "&exclude=minutely,alerts&appid=d68ab89bff9a1e94c3d51494c09fbe5d&units=imperial&cnt=5";
     fetch(fiveDayUrl)
     .then(function(response) {
         // call was successful
@@ -65,9 +65,11 @@ var fiveDayForecast = function(lat, lon) {
             // uvNum = document.getElementById("uv-span"); 
             uviEl.textContent = "UV Index: " + data.current.uvi;
             var dayOneEl = document.getElementById("day-1");
-            dayOneEl.textContent = data.daily[1].dt;
+            var date = new Date(data.daily[1].dt * 1000);
+            dayOneEl.textContent = date;
+            console.log(date);
             var temp1El = document.getElementById("temp-1");
-            temp1El.textContent = "Temp: " + data.daily[1].temp_max + "℉";
+            temp1El.textContent = "Temp: " + data.daily[1].temp.day + "℉";
             var wind1El = document.getElementById("wind-1");
             wind1El.textContent = "Wind: " + data.daily[1].wind_speed + " MPH";
             var humid1El = document.getElementById("humid-1");
@@ -81,7 +83,7 @@ var fiveDayForecast = function(lat, lon) {
         alert("Unable to connect to Open Weather")
         console.log(error);
     })
-};
+}
      
 
 // var nameEl = document.getElementById("name");
