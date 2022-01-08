@@ -57,24 +57,20 @@ var fiveDayForecast = function(lat, lon) {
         if(response.ok) {
             response.json().then(function(data) {
                 console.log(data);
-            var uviEl = document.getElementById("uv-index"); 
-            // var uvNum = data.current.uvi;
-            // var uvNumEl = document.createElement("span")      // how do i style the uvi textContent?
-            // uvNumEl.classList = "badge bg-success";
-            // uvNumEl.appendChild(uviEl);
-            // uvNum = document.getElementById("uv-span"); 
-            uviEl.textContent = "UV Index: " + data.current.uvi;
+            var uvNumEl = document.getElementById("uv-index");      
+            uvNumEl.classList.add("badge", "bg-success");
+            uvNumEl.textContent = data.current.uvi; // 
             // var dayOneEl = document.getElementById("day-1");
             // var unixDate = data.daily[1].dt;
             // var milliSec = unixDate * 1000;                 // how do i convert the date from unix?
-            // var dateObj = new Date(milliSec);
+            // var dateObj = new Date(milliSec);               // use moments
             // var formatDate = dateObj.toLocaleTimeString("en-US", {timeZoneName: "short"});
             //     console.log(formatDate);
             // var date = new Date(data.daily[1].dt * 1000);
             // dayOneEl.textContent =  data.daily[1].dt;
             // console.log(date);
 
-            // DAY 1-TOMORROW'S FORECAST                                          // is there a way to iterate these so I dont have to have 5 separate functions?  
+            // DAY 1-TOMORROW'S FORECAST             
             var temp1El = document.getElementById("temp-1");
             temp1El.textContent = "Temp: " + data.daily[1].temp.day + "℉";
             var wind1El = document.getElementById("wind-1");
