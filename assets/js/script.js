@@ -1,24 +1,31 @@
 var searchButton = document.getElementById("search-btn");
-console.log(searchButton);
+// console.log(searchButton);
 
 var today = new Date().toLocaleDateString();
-console.log(today);
-
-// var inputValue = document.querySelector(".inputValue");
-// var name = document.querySelector(".name");
-// var description = document.querySelector(".description");
-// var temperature = document.querySelector(".temperature");
-// var cityCallUrl = "api.openweathermap.org/data/2.5/weather?q=" + inputValue.value + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
-
+// console.log(today);
 
 searchButton.addEventListener("click", function(event) {
     event.preventDefault();
-    console.log("click");
-    // alert("hello");
+    // console.log("click");
+
     var cityName = document.getElementById('city-name').value;
     var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d&units=imperial";
     // console.log(cityNameUrl);
 
+    // function for adding to and retrieving from localStorage
+    localStorage.setItem("savedCities", cityName);
+    event.preventDefault();
+    console.log("savedCities", cityName);
+    var savedCities = localStorage.getItem("savedCities");
+    console.log(savedCities);
+    var cityListEl = document.getElementById("city-list");
+    var cityBtn = document.createElement("BUTTON");
+    cityListEl.appendChild(cityBtn);
+    cityBtn.classList.add("btn", "btn-secondary", "btn-lg", "btn-block", "w-100");
+    cityBtn.textContent = savedCities;
+    
+
+    //first api call for input city current weather data
     fetch(cityNameUrl)
     .then(function(response) {
         // call was successful
@@ -27,6 +34,9 @@ searchButton.addEventListener("click", function(event) {
                 console.log(data);
             var nameEl = document.getElementById("name");
             nameEl.textContent = data.name + " (" + today + ")";
+            // var iconEl = document.querySelector(".icon");  // adds the small weather icon
+            // var grabIcon = data.weather[0].icon;
+            // iconEl.textContent = "http://openweathermap.org/img/w/" + grabIcon + ".png"
             var tempEl = document.getElementById("temperature");
             tempEl.textContent = "Temp: " + data.main.temp + "℉";
             var windEl = document.getElementById("wind-speed");
@@ -34,6 +44,8 @@ searchButton.addEventListener("click", function(event) {
             var humidEl = document.getElementById("humidity");
             humidEl.textContent = "Humidity: " + data.main.humidity + " %";
             // alert(data)
+
+            //this calls the five day forecast function, below
             fiveDayForecast(data.coord.lat, data.coord.lon); 
             });
         } else {
@@ -46,10 +58,11 @@ searchButton.addEventListener("click", function(event) {
     }); 
 });
 
+// second api call (using onecall api) for uv index & five day forecase using lat & lon values
 var fiveDayForecast = function(lat, lon) {
     // lat = data.coord.lat;
     // lon = data.coord.lon;
-    console.log(lat, lon);
+    // console.log(lat, lon);
     var fiveDayUrl = "https://api.openweathermap.org/data/2.5/onecall?" + "lat=" + lat + "&" + "lon=" + lon + "&exclude=minutely,alerts&appid=d68ab89bff9a1e94c3d51494c09fbe5d&units=imperial&cnt=5";
     fetch(fiveDayUrl)
     .then(function(response) {
@@ -60,17 +73,12 @@ var fiveDayForecast = function(lat, lon) {
             var uvNumEl = document.getElementById("uv-index");      
             uvNumEl.classList.add("badge", "bg-success");
             uvNumEl.textContent = data.current.uvi; // 
-            // var dayOneEl = document.getElementById("day-1");
-            // var unixDate = data.daily[1].dt;
-            // var milliSec = unixDate * 1000;                 // how do i convert the date from unix?
-            // var dateObj = new Date(milliSec);               // use moments
-            // var formatDate = dateObj.toLocaleTimeString("en-US", {timeZoneName: "short"});
-            //     console.log(formatDate);
-            // var date = new Date(data.daily[1].dt * 1000);
-            // dayOneEl.textContent =  data.daily[1].dt;
-            // console.log(date);
-
-            // DAY 1-TOMORROW'S FORECAST             
+                        
+            // DAY 1-TOMORROW'S FORECAST    
+            var dayOneEl = document.getElementById("date-1");
+            var dateString = moment.unix(data.daily[1].dt).format("MM/DD/YYYY");  //converts unix to MM/DD/YYYY format
+            console.log(dateString);
+            dayOneEl.textContent =  dateString;         
             var temp1El = document.getElementById("temp-1");
             temp1El.textContent = "Temp: " + data.daily[1].temp.day + "℉";
             var wind1El = document.getElementById("wind-1");
@@ -79,6 +87,10 @@ var fiveDayForecast = function(lat, lon) {
             humid1El.textContent = "Humidity: " + data.daily[1].humidity + " %";
             
             // DAY 2 FORECAST
+            var day2El = document.getElementById("date-2");
+            var dateString2 = moment.unix(data.daily[2].dt).format("MM/DD/YYYY");  //converts unix to MM/DD/YYYY format
+            console.log(dateString2);
+            day2El.textContent =  dateString2; 
             var temp2El = document.getElementById("temp-2");
             temp2El.textContent = "Temp: " + data.daily[2].temp.day + "℉";
             var wind2El = document.getElementById("wind-2");
@@ -87,6 +99,10 @@ var fiveDayForecast = function(lat, lon) {
             humid2El.textContent = "Humidity: " + data.daily[2].humidity + " %";
 
             // DAY 3 FORECAST
+            var day3El = document.getElementById("date-3");
+            var dateString3 = moment.unix(data.daily[3].dt).format("MM/DD/YYYY");  //converts unix to MM/DD/YYYY format
+            console.log(dateString3);
+            day3El.textContent =  dateString3; 
             var temp3El = document.getElementById("temp-3");
             temp3El.textContent = "Temp: " + data.daily[3].temp.day + "℉";
             var wind3El = document.getElementById("wind-3");
@@ -95,6 +111,10 @@ var fiveDayForecast = function(lat, lon) {
             humid3El.textContent = "Humidity: " + data.daily[3].humidity + " %";
 
             // DAY 4 FORECAST
+            var day4El = document.getElementById("date-4");
+            var dateString4 = moment.unix(data.daily[4].dt).format("MM/DD/YYYY");  //converts unix to MM/DD/YYYY format
+            console.log(dateString4);
+            day4El.textContent =  dateString4; 
             var temp4El = document.getElementById("temp-4");
             temp4El.textContent = "Temp: " + data.daily[4].temp.day + "℉";
             var wind4El = document.getElementById("wind-4");
@@ -103,8 +123,10 @@ var fiveDayForecast = function(lat, lon) {
             humid4El.textContent = "Humidity: " + data.daily[4].humidity + " %";
 
             // DAY 5 FORECAST
-            // var day5El = document.getElementById("day-5");
-            // day5El.textContent =  data.daily[5].dt;
+            var day5El = document.getElementById("date-5");
+            var dateString5 = moment.unix(data.daily[5].dt).format("MM/DD/YYYY");  //converts unix to MM/DD/YYYY format
+            console.log(dateString5);
+            day5El.textContent =  dateString5; 
             var temp5El = document.getElementById("temp-5");
             temp5El.textContent = "Temp: " + data.daily[5].temp.day + "℉";
             var wind5El = document.getElementById("wind-5");
@@ -121,113 +143,16 @@ var fiveDayForecast = function(lat, lon) {
 }
      
 
+
 // var nameEl = document.getElementById("name");
 // nameEl.textContent = data.name + " (" + today + ")";
 // use this api to get five day forecast
 
 
 // create a function using 
-
-//pass in latitute & longitute from city name function & use that to call onecall api
-
-
+// pass in latitute & longitute from city name function & use that to call onecall api
 // isolate data from fetch request, instead of console log, assign values into variables & then append variables to divs in html
       
-// var getForecast = function() {
-//     var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
-    
-//     fetch(forecastUrl)
-//     .then(function(response) {
-//         // call was successful
-//         if(response.ok) {
-//             response.json().then(function(data) {
-//             console.log(data);
-//             // alert(data)
-//             });
-//         } else {
-//             alert("Error: City not found.");
-//         }
-//     })
-// };
-
-// getForecast();
-
-// var displayWeatherData = function(currentWeather, cityName) {
-//     console.log(currentWeather);
-//     console.log(cityName);
-
-   
-
-            // .catch(err => alert ("Wrong city name!"))
-    
-    // http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={API key}
-
-
-// function getWeatherData(cityName) {
-//     var key = "d68ab89bff9a1e94c3d51494c09fbe5d";
-//     var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?id= + cityName + '&appid=' + key";
-    
-    
-//     fetch("cityNameUrl").then(function(response) {
-//         // request was successful
-//         if(response.ok) {
-//             response.json().then(function(data) {
-//             console.log(data, city);
-//                     });
-//         } else {
-//             alert("Error: City not found.");
-//         }
-//         });
-//         };
-
-// getWeatherData();
-  
-
-// function drawWeather( d ) {
-// 	var celcius = Math.round(parseFloat(d.main.temp)-273.15);
-// 	var fahrenheit = Math.round(((parseFloat(d.main.temp)-273.15)*1.8)+32); 
-	
-// 	document.getElementById('description').innerHTML = d.weather[0].description;
-// 	document.getElementById('temp').innerHTML = celcius + '&deg;';
-// 	document.getElementById('location').innerHTML = d.name;
-// }
-
-// function weatherBalloon( cityID ) {
-// 	var key = '{yourkey}';
-// 	fetch('https://api.openweathermap.org/data/2.5/weather?id=' + cityID+ '&appid=' + key)  
-// 	.then(function(resp) { return resp.json() }) // Convert data to json
-// 	.then(function(data) {
-// 		drawWeather(data); // Call drawWeather
-// 	})
-// 	.catch(function() {
-// 		// catch any errors
-// 	});
-// }
-
-
-// var apiKey = d68ab89bff9a1e94c3d51494c09fbe5d;
-
-
-// var getWeatherData = function(city) {
-//     console.log("function was called");
-
-//     var cityNameUrl = "https://api.openweathermap.org/data/2.5/" + city + "weather?id=524901&appid=d68ab89bff9a1e94c3d51494c09fbe5d";
-
-//     var fiveDayUrl = "https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key";
-
-//     fetch("apiCallUrl").then(function(response) {
-//         // request was successful
-//         if(response.ok) {
-//             response.json().then(function(data) {
-//             console.log(data, city);
-//             });
-//         } else {
-//             alert("Error: City not found.");
-//         }
-//     });
-//   };
-  
-//   getWeatherData();
 
 
 //   // Add click function to save user input in text area to localStorage
@@ -246,12 +171,10 @@ var fiveDayForecast = function(lat, lon) {
 //  $("#due-" + i).val(localStorage.getItem(i));
 // };
 
-//   - search for city, write city name, enter, current weather + 5 day forecast
+//   search for city, write city name, enter, current weather + 5 day forecast
+//   2 apis - one for uv indexedDB
+//   put in a  section in html that appends to a button, adds each as a recent search section
 
-//   - 2 apis - one for uv indexedDB
-
-//   - put in a  section in html taht appends to a button, adds each as a recent search section
-
-// click back ona  city in recent search and get the 5 day forecast
+// click back on a  city in recent search and get the 5 day forecast
 
 //  local storage save as an array

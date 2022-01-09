@@ -16,6 +16,7 @@
         </nav>         
     </header>
     <main class="container">
+        <!-- Search box starts here  -->
         <div class="row">
             <div class="col-4">
                 <div class="p-2 card d-flex">
@@ -25,68 +26,65 @@
                     </div>
                     <button id="search-btn" class="btn btn-primary search-button" data-attr="data-city">Search</button>
                 </div>
-            </div>
-            <!-- <div class="city-box border border-secondary d-flex">
-            </div> -->
-            <!-- <form>
-                <input type="text" name="city-name" id="city-name" class="inputValue" placeholder="Enter a city">
-                <input type="submit" value="Search" class="button">
-            </form> -->
+            </div>        
+            <!-- Search box ends here -->
+
+            <!-- Current weather information for input city starts here -->
             <div class="col-8 card fw-bold">
-                <h2 id="name"></h2>
+                <h2 id="name" class="icon"></h2>
                 <p id="temperature"></p>
                 <p id="wind-speed"></p>
                 <p id="humidity"></p>
                 <p>UV Index: <span id="uv-index"></span></p>
             </div>
+            <!-- current weather ends here -->
         </div>
-        <div class="row">
-            <div class="col-4">
-                <!-- cities in localStorage to display in this div -->
-            </div>
         
-
-             <!-- how do i style 5 day forecast so they line up side by side in 5 columns? -->
-
+        <div class="row">
+            <div id="city-list" class="col-4">
+                <!-- cities in localStorage display in this div. Content is created dynamically -->
+            </div>
+    
+            <!-- Five Day forecast starts here -->
             <div class="col-8">
-                <div class="row">
+                <div class="row d-flex justify-content-between">
                     <h3>5-Day Forecast</h3>
-                    <div id="day-1" class="col-2 me-1 daily-forecast text-white bg-dark bg-gradient">       
-                        <h4 id="date-1"></h4>
+                    <div id="day-1" class="col-2 me-auto daily-forecast fs-6 text-white bg-dark bg-gradient">       
+                        <p id="date-1" class="fw-bold"></p>
                         <p id="temp-1"></p>
                         <p id="wind-1"></p>
                         <p id="humid-1"></p>
                     </div>
-                    <div id="day-2" class="col-2 me-1 daily-forecast text-white bg-dark bg-gradient">
-                        <h4 id="date-2"></h4>
+                    <div id="day-2" class="col-2 me-auto daily-forecast text-white bg-dark bg-gradient">
+                        <p id="date-2" class="fw-bold"></p>
                         <p id="temp-2"></p>
                         <p id="wind-2"></p>
                         <p id="humid-2"></p>
                     </div>
-                    <div id="day-3" class="col-2 me-1 daily-forecast text-white bg-dark bg-gradient">
-                        <h4 id="date-3"></h4>
+                    <div id="day-3" class="col-2 me-auto daily-forecast text-white  bg-dark bg-gradient">
+                        <p id="date-3" class="fw-bold"></p>
                         <p id="temp-3"></p>
                         <p id="wind-3"></p>
                         <p id="humid-3"></p>
                     </div>
-                    <div id="day-4" class="col-2 me-1 daily-forecast text-white bg-dark bg-gradient">
-                        <h4 id="date-4"></h4>
+                    <div id="day-4" class="col-2 me-auto daily-forecast text-white bg-dark bg-gradient">
+                        <p id="date-4" class="fw-bold"></p>
                         <p id="temp-4"></p>
                         <p id="wind-4"></p>
                         <p id="humid-4"></p>
                     </div>
-                    <div id="day-4" class="col-2 me-1 daily-forecast text-white bg-dark bg-gradient">
-                        <h4 id="date-5"></h4>
+                    <div id="day-4" class="col-2 me-auto daily-forecast text-white bg-dark bg-gradient">
+                        <p id="date-5" class="fw-bold"></p>
                         <p id="temp-5"></p>
                         <p id="wind-5"></p>
                         <p id="humid-5"></p>
                     </div>
                 </div>
             </div>
-            
+            <!-- Five Day forecast ends here -->
         </div>
     </main>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
