@@ -4,26 +4,51 @@ var searchButton = document.getElementById("search-btn");
 var today = new Date().toLocaleDateString();
 // console.log(today);
 
-searchButton.addEventListener("click", function(event) {
-    event.preventDefault();
-    // console.log("click");
+// allows us to search previous cities
+var searchCity = function() {
+    console.log(this.innerHTML);
+    currentWeather(this.innerHTML);
+}
 
-    var cityName = document.getElementById('city-name').value;
-    var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d&units=imperial";
-    // console.log(cityNameUrl);
-
-    // function for adding to and retrieving from localStorage
-    localStorage.setItem("savedCities", cityName);
-    event.preventDefault();
-    console.log("savedCities", cityName);
-    var savedCities = localStorage.getItem("savedCities");
-    console.log(savedCities);
+var recentSearches = JSON.parse(localStorage.getItem("savedCities")) || [];
+for (var i = 0; i < recentSearches.length; i++) {
+    console.log(recentSearches[i]);
     var cityListEl = document.getElementById("city-list");
     var cityBtn = document.createElement("BUTTON");
-    cityListEl.appendChild(cityBtn);
     cityBtn.classList.add("btn", "btn-secondary", "btn-lg", "btn-block", "w-100");
-    cityBtn.textContent = savedCities;
+    cityBtn.textContent = recentSearches[i];
+    cityBtn.addEventListener("click", searchCity)
+    cityListEl.appendChild(cityBtn);
+}
+
+searchButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    var cityName = document.getElementById('city-name').value;
+        
+       
+    recentSearches.push(cityName);
+    // function for adding to and retrieving from localStorage
+    localStorage.setItem("savedCities", JSON.stringify(recentSearches));
+    event.preventDefault();
+    console.log("savedCities", cityName);
+    // var savedCities = localStorage.getItem("savedCities");
+    // console.log(savedCities);
+    var cityListEl = document.getElementById("city-list");
+    var cityBtn = document.createElement("BUTTON");
+    cityBtn.classList.add("btn", "btn-secondary", "btn-lg", "btn-block", "w-100");
+    cityBtn.textContent = cityName;
+    cityBtn.addEventListener("click", searchCity)
+    cityListEl.appendChild(cityBtn);
     
+    currentWeather(cityName);
+
+});
+
+
+// first fetch call from Openweather API for current weather
+var currentWeather = function(cityName) {
+    
+    var cityNameUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=d68ab89bff9a1e94c3d51494c09fbe5d&units=imperial";
 
     //first api call for input city current weather data
     fetch(cityNameUrl)
@@ -34,9 +59,17 @@ searchButton.addEventListener("click", function(event) {
                 console.log(data);
             var nameEl = document.getElementById("name");
             nameEl.textContent = data.name + " (" + today + ")";
-            // var iconEl = document.querySelector(".icon");  // adds the small weather icon
-            // var grabIcon = data.weather[0].icon;
+            var iconEl = document.createElement("img");
+            var iconcode = data.weather[0].icon;
+            console.log(iconcode);
+            iconEl.setAttribute("src", "http://openweathermap.org/img/w/" + iconcode + ".png");
+            nameEl.append(iconEl);
+
+            // var grabIcon = 
             // iconEl.textContent = "http://openweathermap.org/img/w/" + grabIcon + ".png"
+            // next steps for icons (.weather[0].icon)
+            //  
+            // create image tag, 1st fetch, how to give element a src , src is the iconurl w/ correct code
             var tempEl = document.getElementById("temperature");
             tempEl.textContent = "Temp: " + data.main.temp + "℉";
             var windEl = document.getElementById("wind-speed");
@@ -56,7 +89,7 @@ searchButton.addEventListener("click", function(event) {
         alert("Unable to connect to Open Weather")
         console.log(error);
     }); 
-});
+};
 
 // second api call (using onecall api) for uv index & five day forecase using lat & lon values
 var fiveDayForecast = function(lat, lon) {
